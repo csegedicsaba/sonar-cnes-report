@@ -24,6 +24,7 @@ import fr.cnes.sonar.report.model.Report;
 import fr.cnes.sonar.report.model.SonarQubeServer;
 import fr.cnes.sonar.report.providers.*;
 import fr.cnes.sonar.report.utils.ReportConfiguration;
+import fr.cnes.sonar.report.utils.StringManager;
 
 /**
  * Construct the report from resources providers.
@@ -56,8 +57,20 @@ public class ReportModelFactory {
     private String date;
 
     /**
+     * Constructor for aggregated report
+     */
+
+    public ReportModelFactory(final SonarQubeServer pServer, final ReportConfiguration pConfiguration, String project) {
+        this.server = pServer;
+        this.token = pConfiguration.getToken();
+        this.project = project;
+        this.branch = StringManager.NO_BRANCH;
+    }
+
+    /**
      * Complete constructor
-     * @param pServer Value for SQ server.
+     *
+     * @param pServer        Value for SQ server.
      * @param pConfiguration Contains report configuration.
      */
     public ReportModelFactory(final SonarQubeServer pServer, final ReportConfiguration pConfiguration) {
@@ -71,10 +84,11 @@ public class ReportModelFactory {
 
     /**
      * Create a report from program resources
+     *
      * @return A complete report resources model
      * @throws BadSonarQubeRequestException when a request to the server is not well-formed
-     * @throws UnknownQualityGateException a quality gate is not correct
-     * @throws SonarQubeException When an error occurred from SonarQube server.
+     * @throws UnknownQualityGateException  a quality gate is not correct
+     * @throws SonarQubeException           When an error occurred from SonarQube server.
      */
     public Report create() throws BadSonarQubeRequestException, UnknownQualityGateException, SonarQubeException {
         // the new report to return
@@ -96,7 +110,7 @@ public class ReportModelFactory {
         // date setting
         report.setProjectDate(this.date);
 
-        if(!projectProvider.hasProject(this.project, this.branch)) {
+        if (!projectProvider.hasProject(this.project, this.branch)) {
             throw new SonarQubeException(String.format("Unknown project '%s' on SonarQube instance.", this.project));
         }
 

@@ -25,60 +25,102 @@ import java.util.Date;
  */
 public class ReportConfiguration {
 
-    /** Options for h. */
+    /**
+     * Options for h.
+     */
     private boolean help;
-    /** Options for v. */
+    /**
+     * Options for v.
+     */
     private boolean version;
-    /** Options for s. */
+    /**
+     * Options for s.
+     */
     private String server;
-    /** Options for t. */
+    /**
+     * Options for t.
+     */
     private String token;
-    /** Options for p. */
+    /**
+     * Options for p.
+     */
     private String project;
-    /** Options for b. */
+    /**
+     * Options for b.
+     */
     private String branch;
-    /** Options for o. */
+    /**
+     * Options for o.
+     */
     private String output;
-    /** Options for l. */
+    /**
+     * Options for l.
+     */
     private String language;
-    /** Options for a. */
+    /**
+     * Options for a.
+     */
     private String author;
-    /** Options for d. */
+    /**
+     * Options for d.
+     */
     private String date;
-    /** Options for c. */
+    /**
+     * Options for c.
+     */
     private boolean enableConf;
-    /** Options for w. */
+    /**
+     * Options for w.
+     */
     private boolean enableReport;
-    /** Options for e. */
+    /**
+     * Options for e.
+     */
     private boolean enableSpreadsheet;
-    /** Options for f. */
+    /**
+     * Options for f.
+     */
     private boolean enableCSV;
-    /** Options for m. */
+    /**
+     * Options for m.
+     */
     private boolean enableMarkdown;
-    /** Options for r. */
+    /**
+     * Options for r.
+     */
     private String templateReport;
-    /** Options for x. */
+    /**
+     * Options for x.
+     */
     private String templateSpreadsheet;
-    /** Options for n. */
+    /**
+     * Options for n.
+     */
     private String templateMarkdown;
+    /**
+     * Options for g.
+     */
+    private boolean aggregated;
+
 
     /**
      * Private constructor, use create method instead.
-     * @param help Value for h option.
-     * @param version Value for v option.
-     * @param server Value for s option.
-     * @param token Value for t option.
-     * @param project Value for p option.
-     * @param output Value for o option.
-     * @param language Value for l option.
-     * @param author Value for a option.
-     * @param date Value for d option.
-     * @param enableConf Value for c option.
-     * @param enableReport Value for w option.
-     * @param enableSpreadsheet Value for e option.
-     * @param templateReport Value for r option.
+     *
+     * @param help                Value for h option.
+     * @param version             Value for v option.
+     * @param server              Value for s option.
+     * @param token               Value for t option.
+     * @param project             Value for p option.
+     * @param output              Value for o option.
+     * @param language            Value for l option.
+     * @param author              Value for a option.
+     * @param date                Value for d option.
+     * @param enableConf          Value for c option.
+     * @param enableReport        Value for w option.
+     * @param enableSpreadsheet   Value for e option.
+     * @param templateReport      Value for r option.
      * @param templateSpreadsheet Value for x option.
-     * @param branch Value for b option.
+     * @param branch              Value for b option.
      */
     private ReportConfiguration(final boolean help, final boolean version, final String server,
                                 final String token, final String project, final String output,
@@ -86,7 +128,8 @@ public class ReportConfiguration {
                                 final boolean enableConf, final boolean enableReport,
                                 final boolean enableSpreadsheet, final boolean enableCSV,
                                 final boolean enableMarkdown, String templateReport,
-                                final String templateSpreadsheet, final String templateMarkdown, final String branch) {
+                                final String templateSpreadsheet, final String templateMarkdown, final String branch,
+                                final boolean aggregated) {
         this.help = help;
         this.version = version;
         this.server = server;
@@ -105,6 +148,7 @@ public class ReportConfiguration {
         this.templateSpreadsheet = templateSpreadsheet;
         this.templateMarkdown = templateMarkdown;
         this.branch = branch;
+        this.aggregated = aggregated;
     }
 
     /**
@@ -139,7 +183,9 @@ public class ReportConfiguration {
                 commandLineManager.getOptionValue("r", StringManager.EMPTY),
                 commandLineManager.getOptionValue("x", StringManager.EMPTY),
                 commandLineManager.getOptionValue("n", StringManager.EMPTY),
-                branch.isEmpty()?StringManager.NO_BRANCH:branch
+                branch.isEmpty() ? StringManager.NO_BRANCH : branch,
+                commandLineManager.hasOption("g")
+
         );
     }
 
@@ -187,9 +233,13 @@ public class ReportConfiguration {
         return enableConf;
     }
 
-    public boolean isEnableCSV(){ return enableCSV; }
+    public boolean isEnableCSV() {
+        return enableCSV;
+    }
 
-    public boolean isEnableMarkdown(){ return enableMarkdown; }
+    public boolean isEnableMarkdown() {
+        return enableMarkdown;
+    }
 
     public boolean isEnableReport() {
         return enableReport;
@@ -207,7 +257,11 @@ public class ReportConfiguration {
         return templateSpreadsheet;
     }
 
-    public String getTemplateMarkdown(){
+    public String getTemplateMarkdown() {
         return templateMarkdown;
+    }
+
+    public boolean isAggregated() {
+        return aggregated;
     }
 }

@@ -56,21 +56,25 @@ public final class ReportCommandLine {
         (new File(org.apache.commons.io.FileUtils.getUserDirectory().getPath().concat("/.cnesreport/log"))).mkdirs();
     }
 
-    /** Logger of this class */
+    /**
+     * Logger of this class
+     */
     private static final Logger LOGGER = Logger.getLogger(ReportCommandLine.class.getName());
 
     /**
      * Private constructor to not be able to instantiate it.
      */
-    private ReportCommandLine(){}
+    private ReportCommandLine() {
+    }
 
     /**
      * Main method.
      * See help message for more information about using this program.
      * Entry point of the program.
+     *
      * @param args Arguments that will be preprocessed.
      */
-    public static void main(final String[] args)  {
+    public static void main(final String[] args) {
         // main catches all exceptions
         try {
             // We use different method because it can be called outside main (for example, in from ReportSonarPlugin)
@@ -85,23 +89,24 @@ public final class ReportCommandLine {
         }
     }
 
-    public static void execute(final String[] args) throws BadExportationDataTypeException , BadSonarQubeRequestException , IOException,
-    UnknownQualityGateException, OpenXML4JException, XmlException, SonarQubeException{
+    public static void execute(final String[] args) throws BadExportationDataTypeException, BadSonarQubeRequestException, IOException,
+            UnknownQualityGateException, OpenXML4JException, XmlException, SonarQubeException {
         // Log message.
         String message;
 
         // Parse command line arguments.
         final ReportConfiguration conf = ReportConfiguration.create(args);
-        if(conf.getProject().isEmpty()){
-            throw new IllegalStateException("Please provide a project with the -p argument, you can also use -h argument to display help.");
+        if (conf.getProject().isEmpty() && !conf.isAggregated()) {
+            throw new IllegalStateException("Please provide a project with the -p argument or -g for aggregated excel report, you can also use -h argument to display help.");
         }
+
 
         // Set the language of the report.
         // assumes the language is set with language_country
         StringManager.changeLocale(conf.getLanguage());
 
         // Display version information and exit.
-        if(conf.isVersion()) {
+        if (conf.isVersion()) {
             final String name = ReportCommandLine.class.getPackage().getImplementationTitle();
             final String version = ReportCommandLine.class.getPackage().getImplementationVersion();
             final String vendor = ReportCommandLine.class.getPackage().getImplementationVendor();
@@ -120,16 +125,23 @@ public final class ReportCommandLine {
         message = String.format("SonarQube online: %s", server.isUp());
         LOGGER.info(message);
 
-        if(!server.isUp()) {
+        if (!server.isUp()) {
             throw new SonarQubeException("Impossible to reach SonarQube instance.");
         }
 
         message = String.format("Detected SonarQube version: %s", server.getNormalizedVersion());
         LOGGER.info(message);
 
-        if(!server.isSupported()) {
+        if (!server.isSupported()) {
             throw new SonarQubeException("SonarQube instance is not supported by cnesreport.");
         }
+
+        // running aggregated report
+        if (conf.isAggregated()) {
+            AggregatedReportGenerator.generate(conf, server);
+            return;
+        }
+
 
         // Generate the model of the report.
         final Report model = new ReportModelFactory(server, conf).create();

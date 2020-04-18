@@ -41,79 +41,83 @@ public abstract class AbstractDataProvider {
      */
     protected static final String REQUESTS_PROPERTIES = "requests.properties";
     /**
-     *  Field to retrieve languages list.
+     * Field to retrieve languages list.
      */
     protected static final String GET_LANGUAGES = "GET_LANGUAGES";
     /**
-     *  Name of the request for getting quality profiles' linked projects
+     * Name of the request for getting quality profiles' linked projects
      */
     protected static final String GET_QUALITY_PROFILES_PROJECTS_REQUEST =
             "GET_QUALITY_PROFILES_PROJECTS_REQUEST";
     /**
-     *  Name of the request for getting project's quality profiles
+     * Name of the request for getting project's quality profiles
      */
     public static final String GET_PROJECT_QUALITY_PROFILES_REQUEST =
             "GET_PROJECT_QUALITY_PROFILES_REQUEST";
     /**
-     *  Name of the request allowing to retrieve the quality gate
+     * Name of the request allowing to retrieve the quality gate
      */
     protected static final String GET_QUALITY_GATE_REQUEST = "GET_QUALITY_GATE_REQUEST";
     /**
-     *  Name of the request allowing to retrieve the projects linked to quality gate
+     * Name of the request allowing to retrieve the projects linked to quality gate
      */
     public static final String QUALITY_GATE_PROJECTS_REQUEST = "QUALITY_GATE_PROJECTS_REQUEST";
     /**
-     *  Name of the request for getting quality gates' details
+     * Name of the request for getting quality gates' details
      */
     protected static final String GET_QUALITY_GATES_DETAILS_REQUEST =
             "GET_QUALITY_GATES_DETAILS_REQUEST";
     /**
-     *  Name of the request for getting quality profiles' linked rules
+     * Name of the request for getting quality profiles' linked rules
      */
     protected static final String GET_QUALITY_PROFILES_RULES_REQUEST =
             "GET_QUALITY_PROFILES_RULES_REQUEST";
     /**
-     *  Name of the request for getting issues
+     * Name of the request for getting issues
      */
     protected static final String GET_ISSUES_REQUEST = "GET_ISSUES_REQUEST";
     /**
-     *  Name of the request for getting facets
+     * Name of the request for getting facets
      */
     protected static final String GET_FACETS_REQUEST = "GET_FACETS_REQUEST";
     /**
-     *  Name of the property for the maximum number of results per page
+     * Name of the property for the maximum number of results per page
      */
     protected static final String MAX_PER_PAGE_SONARQUBE = "MAX_PER_PAGE_SONARQUBE";
     /**
-     *  Name of the request for getting quality gates
+     * Name of the request for getting quality gates
      */
     protected static final String GET_QUALITY_GATES_REQUEST = "GET_QUALITY_GATES_REQUEST";
     /**
-     *  Name of the request for getting measures
+     * Name of the request for getting measures
      */
     protected static final String GET_MEASURES_REQUEST = "GET_MEASURES_REQUEST";
     /**
-     *  Name of the request for getting componentsList
+     * Name of the request for getting componentsList
      */
     protected static final String GET_COMPONENTS_REQUEST = "GET_COMPONENTS_REQUEST";
     /**
-     *  Name of the request for getting a specific project
+     * Name of the request for getting a specific project
      */
     protected static final String GET_PROJECT_REQUEST = "GET_PROJECT_REQUEST";
     /**
-     *  Name of the request for getting quality profiles
+     * Name of the request for getting quality profiles
      */
     protected static final String GET_QUALITY_PROFILES_REQUEST = "GET_QUALITY_PROFILES_REQUEST";
     /**
-     *  Name of the request for getting quality profiles' configuration
+     * Name of the request for getting quality profiles' configuration
      */
     protected static final String GET_QUALITY_PROFILES_CONF_REQUEST =
             "GET_QUALITY_PROFILES_CONFIGURATION_REQUEST";
     /**
-     *  Name of the request for getting SonarQube server information
+     * Name of the request for getting SonarQube server information
      */
     protected static final String GET_SONARQUBE_INFO_REQUEST =
             "GET_SONARQUBE_INFO_REQUEST";
+
+    protected static final String GET_ALL_PROJECTS_REQUEST = "GET_ALL_PROJECTS_REQUEST";
+
+
     /**
      * Field to search in json to get results' values
      */
@@ -209,8 +213,8 @@ public abstract class AbstractDataProvider {
         final ClassLoader classLoader = AbstractDataProvider.class.getClassLoader();
 
         // load properties file as a stream
-        try (InputStream input = classLoader.getResourceAsStream(REQUESTS_PROPERTIES)){
-            if(input!=null) {
+        try (InputStream input = classLoader.getResourceAsStream(REQUESTS_PROPERTIES)) {
+            if (input != null) {
                 // load properties from the stream in an adapted structure
                 requests.load(input);
             }
@@ -222,10 +226,11 @@ public abstract class AbstractDataProvider {
 
     /**
      * Constructor.
-     * @param server SonarQube server.
-     * @param token String representing the user token.
+     *
+     * @param server  SonarQube server.
+     * @param token   String representing the user token.
      * @param project The id of the project to report.
-     * @param branch The branch of the project to report.
+     * @param branch  The branch of the project to report.
      */
     AbstractDataProvider(final SonarQubeServer server, final String token, final String project, final String branch) {
         // json tool
@@ -242,8 +247,9 @@ public abstract class AbstractDataProvider {
 
     /**
      * Constructor.
-     * @param server SonarQube server.
-     * @param token String representing the user token.
+     *
+     * @param server  SonarQube server.
+     * @param token   String representing the user token.
      * @param project The id of the project to report.
      */
     AbstractDataProvider(final SonarQubeServer server, final String token, final String project) {
@@ -260,6 +266,7 @@ public abstract class AbstractDataProvider {
     /**
      * Give the value of the property corresponding to the key passed as parameter.
      * It gives only properties related to requests.
+     *
      * @param property Key of the property you want.
      * @return The value of the property you want as a String.
      */
@@ -269,6 +276,7 @@ public abstract class AbstractDataProvider {
 
     /**
      * Check if the server has sent an error
+     *
      * @param jsonObject The response from the server
      * @throws BadSonarQubeRequestException thrown if the server do not understand our request
      */
@@ -289,10 +297,11 @@ public abstract class AbstractDataProvider {
 
     /**
      * Execute a given request
+     *
      * @param request Url for the request, for example http://sonarqube:1234/api/toto/list
      * @return Server's response as a JsonObject
      * @throws BadSonarQubeRequestException if SonarQube Server sent an error
-     * @throws SonarQubeException When SonarQube server is not callable.
+     * @throws SonarQubeException           When SonarQube server is not callable.
      */
     public JsonObject request(final String request)
             throws BadSonarQubeRequestException, SonarQubeException {
@@ -330,9 +339,10 @@ public abstract class AbstractDataProvider {
 
     /**
      * Get the raw string response
+     *
      * @param request the raw server of the request
      * @return the server's response as a string
-     * @throws SonarQubeException When SonarQube server is not callable.
+     * @throws SonarQubeException           When SonarQube server is not callable.
      * @throws BadSonarQubeRequestException if SonarQube Server sent an error
      */
     protected String stringRequest(final String request) throws SonarQubeException, BadSonarQubeRequestException {
@@ -348,6 +358,7 @@ public abstract class AbstractDataProvider {
 
     /**
      * Json parsing tool
+     *
      * @return the gson tool
      */
     public Gson getGson() {
@@ -356,6 +367,7 @@ public abstract class AbstractDataProvider {
 
     /**
      * Setter of gson
+     *
      * @param pGson value
      */
     public void setGson(final Gson pGson) {
@@ -364,6 +376,7 @@ public abstract class AbstractDataProvider {
 
     /**
      * SonarQube instance
+     *
      * @return the server
      */
     public SonarQubeServer getServer() {
@@ -372,6 +385,7 @@ public abstract class AbstractDataProvider {
 
     /**
      * Setter of server
+     *
      * @param pServer value
      */
     public void setServer(final SonarQubeServer pServer) {
@@ -380,6 +394,7 @@ public abstract class AbstractDataProvider {
 
     /**
      * Token to authenticate the user
+     *
      * @return the user token
      */
     public String getToken() {
@@ -388,6 +403,7 @@ public abstract class AbstractDataProvider {
 
     /**
      * Setter of token
+     *
      * @param pToken value
      */
     public void setToken(final String pToken) {
@@ -396,6 +412,7 @@ public abstract class AbstractDataProvider {
 
     /**
      * Key of the project to report
+     *
      * @return the project key as a String
      */
     public String getProjectKey() {
@@ -404,6 +421,7 @@ public abstract class AbstractDataProvider {
 
     /**
      * Setter of projectKey
+     *
      * @param pProjectKey value to give
      */
     public void setProjectKey(final String pProjectKey) {
@@ -412,6 +430,7 @@ public abstract class AbstractDataProvider {
 
     /**
      * Branch of the project to report or "%" if branch was not set (default)
+     *
      * @return the project branch as a String
      */
     public String getBranch() {
@@ -420,6 +439,7 @@ public abstract class AbstractDataProvider {
 
     /**
      * Setter of branch
+     *
      * @param branch value to give
      */
     public void setBranch(final String branch) {
@@ -428,6 +448,7 @@ public abstract class AbstractDataProvider {
 
     /**
      * Quality gate's name (used by the project)
+     *
      * @return the name of the quality gate as a string
      */
     public String getQualityGateName() {
@@ -436,6 +457,7 @@ public abstract class AbstractDataProvider {
 
     /**
      * Setter of qualityGateName
+     *
      * @param pQualityGateName value
      */
     public void setQualityGateName(final String pQualityGateName) {

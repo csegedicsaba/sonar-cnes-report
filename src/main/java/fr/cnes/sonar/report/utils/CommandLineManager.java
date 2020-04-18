@@ -59,7 +59,9 @@ public class CommandLineManager {
             {"m", "disable-markdown", Boolean.FALSE.toString(), "Disable Markdown generation"},
             {"n", "template-markdown", Boolean.TRUE.toString(), "Path to the report template in markdown. Default: usage of internal template."},
             {"r", "template-report", Boolean.TRUE.toString(), "Path to the report template. Default: usage of internal template."},
-            {"x", "template-spreadsheet", Boolean.TRUE.toString(), "Path to the spreadsheet template. Default: usage of internal template."}
+            {"x", "template-spreadsheet", Boolean.TRUE.toString(), "Path to the spreadsheet template. Default: usage of internal template."},
+            {"g", "aggregated", Boolean.FALSE.toString(), "Creating aGgregated report"},
+
     };
 
     /**

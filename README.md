@@ -39,6 +39,7 @@ Generate editable reports for SonarQube projects.
  -d,--date <arg>                   Date for the report. Default: current date.
  -e,--disable-spreadsheet          Disable spreadsheet generation.
  -f,--disable-csv                  Disable csv generation.
+ -g,--aggregated                   Creating aGgregated report
  -h,--help                         Display this message.
  -l,--language <arg>               Language of the report. Values: en_US, fr_FR. Default: en_US.
  -m,--disable-markdown             Disable markdown generation.
@@ -55,6 +56,17 @@ Generate editable reports for SonarQube projects.
 
 Please report issues at https://github.com/lequal/sonar-cnes-report/issues
 ````
+
+#### Aggregated Report - new feature added by csegedicsaba on 18.04.2020
+Only the following arguments can be used together with -g argument
+
+````
+ -g,--aggregated                   Creating aGgregated report (
+ -o,--output <arg>                 Output path for exported resources.
+ -s,--server <arg>                 Complete URL of the targeted SonarQube server.
+ -t,--token <arg>                  SonarQube token of the SonarQube user who has permissions on the project.
+````
+
 
 #### Get logs
 You can have more detailed logs in the hidden directory `.cnesreport` which should be created in your home directory at first launch.
